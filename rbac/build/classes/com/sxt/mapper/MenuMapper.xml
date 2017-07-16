@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxt.mapper.MenuMapper">
+
+	<select id="findByUidAndPid"  resultType="com.sxt.pojo.Menu">
+		
+		select m.menuId,m.menuname,m.menuurl,m.pmenuId
+		from t_menu m
+		inner join t_role_menu rm
+		on m.menuId = rm.menuId
+		inner join t_user_role ur
+		on rm.roleId = ur.roleId
+		where ur.userId =#{userId} 
+		<choose>
+			<when test="pmenuId!=null">
+				and pmenuId = #{pmenuId}
+			</when>
+			<otherwise>
+				and pmenuId is null
+			</otherwise>
+		
+		</choose>
+	
+	</select>
+	
+
+</mapper>
